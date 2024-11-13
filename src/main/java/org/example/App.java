@@ -19,13 +19,18 @@ public class App {
     static final String Password = "1324";
 
     public static void main(String[] args) throws IOException, SQLException {
+        String sourceArchivePath = null;
+        if (args.length > 0 ) {
+            sourceArchivePath = args[0];
+        }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String currentDate = LocalDate.now().format(formatter);
 
-        String sourceArchivePath = getFilePath();
-        sourceArchivePath = "C:\\Users\\artem\\IdeaProjects\\Archiver Test\\Archive\\archive.zip";
-
+        if (sourceArchivePath == null || sourceArchivePath.isEmpty()) {
+            sourceArchivePath = getFilePath();
+            sourceArchivePath = "C:\\Projects\\student\\Archivator test\\archives\\zip.zip";
+        }
         String tempDir = unzipFile(sourceArchivePath, currentDate);
         zipAndSaveOver1MBFiles(currentDate);
         zipAndSaveLess1MBFiles(tempDir);
